@@ -1,6 +1,8 @@
 """
 Name: Justin Ho
-Scraper for court cases given URL access
+Scraper for court cases given URL access 
+
+Instructions on how to use this scraper in README.md
 """
 
 from selenium import webdriver
