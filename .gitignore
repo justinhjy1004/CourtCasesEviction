@@ -2,3 +2,5 @@ __pycache__/
 /00_scrapers/credentials.py
 /00_scrapers/chromedriver
 /01_extract/CourtCases/
+/02_cleaning/all_cases.csv
+/02_cleaning/clean_all_cases.csv
