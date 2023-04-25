@@ -4,3 +4,5 @@ __pycache__/
 /01_extract/CourtCases/
 /02_cleaning/all_cases.csv
 /02_cleaning/clean_all_cases.csv
+/04_geocoding/geocode/
+/04_geocoding/geocoderesult/
