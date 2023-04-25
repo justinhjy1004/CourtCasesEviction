@@ -11,3 +11,7 @@ curl --form addressFile=@./geocode/chunk_ae.csv --form benchmark=2020 https://ge
 curl --form addressFile=@./geocode/chunk_af.csv --form benchmark=2020 https://geocoding.geo.census.gov/geocoder/locations/addressbatch --output ./geocoderesult/chunk_af.csv
 curl --form addressFile=@./geocode/chunk_ag.csv --form benchmark=2020 https://geocoding.geo.census.gov/geocoder/locations/addressbatch --output ./geocoderesult/chunk_ag.csv
 curl --form addressFile=@./geocode/chunk_aa.csv --form benchmark=2020 https://geocoding.geo.census.gov/geocoder/locations/addressbatch --output ./geocoderesult/chunk_aa.csv
+
+cat ./geocoderesult/*.csv > geocoderesult.csv
+grep -hr "Exact" geocoderesult.csv > matches.csv
+grep -hr "No_Match" geocoderesult.csv > no_match.csv

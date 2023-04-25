@@ -1,1 +1,0 @@
-curl --form addressFile=@./geocode/chunk_aa.csv --form benchmark=2020 https://geocoding.geo.census.gov/geocoder/locations/addressbatch --output ./geocoderesult/chunk_aa.csv
