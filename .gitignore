@@ -6,3 +6,4 @@ __pycache__/
 /02_cleaning/clean_all_cases.csv
 /04_geocoding/geocode/
 /04_geocoding/geocoderesult/
+/06_demographics/*.csv

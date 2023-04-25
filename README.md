@@ -60,7 +60,50 @@ and a corresponding **csv** file would be produced.
 
 ## Cleaning
 
+The sad part of the any data project. Here, I included a file *(not in GitHub)* called **all_cases.csv**, which is obtained from the previous *extract* section.
+
+Then, run, which was done in a Bash Shell
+```bash
+chmod +x script.sh
+./script.sh
+```
+
 -------------------
 
 ## Visualization and Summary Statistic
 
+-------------------
+
+## Geocoding
+
+After Cleaning in Section 02, the geocoding is done using the https://geocoding.geo.census.gov/geocoder/locations/addressbatch which takes a maximum of 10,000 lines of address and geocode and matches to the 2020 Census Tract Information.
+
+To run this section, 
+1. From the cleaned data in Section 02 Cleaning, subset **CASE_ID, STREET, CITY, STATE, ZIP**
+2. Place in a directory called *geocode*
+3. Run the following commands *(done in Bash)*
+
+```bash
+chmod +x geocode.sh
+./geocode.sh
+```
+
+The matched data is found in *matches.csv* and the other is under *no_match.csv*.
+
+-------------------
+
+## Actions of Court
+
+-------------------
+
+## Demographics
+
+For demographics, using Tzioumis, Konstantinos (2018) using the **predictrace** package in *R*.
+
+To run the following section 
+1. Install packages **tidyverse** and **predictrace**
+2. Run the following 
+
+```bash
+Rscript demographic.R
+```
