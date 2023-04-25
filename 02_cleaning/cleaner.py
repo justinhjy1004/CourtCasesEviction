@@ -137,3 +137,47 @@ def get_address(defendant, defendant_attorney, parties):
     
     return address  
     
+"""
+Given a string, remove the last character if it is comma
+This is necessary due to my incompetency of getting a better 
+algorithm above
+Input: text
+Output: text making without comma at the end
+"""
+def comma_correction(text):
+    n = len(text)
+
+    if text[-1] == ",":
+        return text[:(n-1)]
+    else:
+        return text
+
+"""
+Writing address for normies
+Input: address
+Output: still address, but for the census
+"""
+def splitting_field(address):
+
+    if type(address) != str:
+        return None, None, None, None
+
+    address = address.split(", ")
+    
+    if len(address) < 3:
+        return None, None, None, None
+    
+    street = address[0]
+    city = address[-2]
+    state_zip = address[-1]
+
+    state_zip = state_zip.split(" ")
+
+    if len(state_zip) == 2:
+        state = state_zip[0]
+        zip = state_zip[1]
+    else:
+        state = state_zip[0]
+        zip = None
+
+    return street, city, state, zip
