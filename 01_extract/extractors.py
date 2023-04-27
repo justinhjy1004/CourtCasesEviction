@@ -11,6 +11,10 @@ Input: text of case summary
 Output: case name, plaintiff and defendant
 """
 def case_name(case_summary):
+
+    if case_summary is None:
+        return None
+    
     parties = re.search(r"\n (.*?) v\. (.*?) \n", case_summary)
 
     if parties is None:
@@ -29,6 +33,9 @@ Output: judge name
 """
 def judge(case_summary):
 
+    if case_summary is None:
+        return None
+
     judge = re.search(r"\n The Honorable (.*?), presiding.", case_summary)
 
     if judge is None:
@@ -45,6 +52,10 @@ Input: text of parties and plaintiff of case
 Output: corrected plaintiff information and their attorney
 """
 def plaintiff_information(parties, plaintiff):
+
+    if parties is None or plaintiff is None:
+        return None, None
+    
     plaintiff_detail = re.search("(.*?)" + plaintiff + "(.*?) [\s]{3,} [a-zA-Z]* \n", parties)
 
     if plaintiff_detail is None:
@@ -62,6 +73,10 @@ Input: text of parties and defendant of case
 Output: corrected defendant information and their attorney
 """
 def defendant_information(parties, defendant):
+
+    if parties is None or defendant is None:
+        return None, None
+
     defendant_detail = re.search("(.*?)" + defendant + "(.*?) [\s]{3,} [a-zA-Z]* \n", parties)
 
     if defendant_detail is None:
@@ -78,6 +93,9 @@ Input: text on the parties involved
 Output: how many defendants are named
 """
 def num_defendants(parties):
+    
+    if parties is None:
+        return None
 
     num_defendants = re.findall("Defendant ACTIVE", parties)
 
@@ -92,6 +110,10 @@ Input: text of parties and defendant
 Output: defendant's address
 """
 def defendant_address(parties, defendant):
+
+    if parties is None or defendant is None:
+        return None
+
     address = re.search(defendant + " [\S\s]* NE \d{5} [\s]* \n", parties)
 
     if address is None:
@@ -114,6 +136,9 @@ Output: filing date
 """
 def filing_date(case_summary):
 
+    if case_summary is None:
+        return None
+
     filing_date = re.search(r"Filed on (.*?) \n", case_summary)
 
     if filing_date is None:
@@ -129,6 +154,9 @@ Input: text of case summary
 Output: closing date
 """
 def closing_date(case_summary):
+
+    if case_summary is None:
+        return None
     
     closing_date = re.search(r"This case is Closed as of (.*?) \n", case_summary)
 
@@ -145,6 +173,9 @@ Input: text of case summary
 Output: decision on how the case is disposed
 """
 def decision(case_summary):
+
+    if case_summary is None:
+        return None
 
     decision = re.search(r"It was disposed as  (.*?)\n", case_summary)
 
