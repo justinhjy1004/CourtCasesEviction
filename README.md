@@ -16,6 +16,8 @@ Refer to the folder **00_scrapers** for this section. The scraper is developed t
 }
 ```
 
+Brute Force TODO
+
 ### Instructions
 
 To use this scraper, you would have to add the following into the folder.
