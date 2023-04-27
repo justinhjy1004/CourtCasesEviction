@@ -16,7 +16,22 @@ Refer to the folder **00_scrapers** for this section. The scraper is developed t
 }
 ```
 
-Brute Force TODO
+## Brute Force Scraper
+
+In the event that it would be a pain in the ass to get **PUBLIC** records from the  government, I would suggest to use the brute force scraper. While it could be slower as compared to targeted scraping, it might just be faster than the government!
+
+*brute_force_scraper.py* takes 5 command line inputs
+1. **County** - "Lancaster" or "Douglas"
+2. **Year** (post 2000) - for 2021, your input should be 21
+3. **Number of Cases** - total number of cases based on heuristics
+4. **Pool Size** - how much do you want to strain your computer
+5. **Partition Size** - the larger the partition size, the fewer the files to deal with, but the riskier as I have no clue as to how to sequentially append a JSON file effectively.
+
+```python
+python3 brute_force_scraper.py Lancaster 21 15000 4 300
+```
+
+The bash command above would scrape Lancaster county cases in year 2021, assuming there is around a total of 15,000 cases, 4 at a time, and partition the scraping records 300 a time. 
 
 ### Instructions
 

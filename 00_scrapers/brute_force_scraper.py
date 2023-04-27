@@ -9,15 +9,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from credentials import url
 from selenium.common.exceptions import TimeoutException
+from multiprocessing.pool import ThreadPool 
 import json
 import sys
 
-if __name__ == "__main__":
-
-    county = sys.argv[1]
-    year = sys.argv[2]
-    start = sys.argv[3]
-    end = sys.argv[4]
+def scrape(county, year, start, end):
 
     file_name = str(year) + "_" + county + "_" + str(start) + "_" + str(end) + ".json"
 
@@ -53,7 +49,37 @@ if __name__ == "__main__":
         except TimeoutException as ex:
             print("Timeout! for " + case_id )
 
+    browser.close()
+
     with open("./bfscraped/" + file_name, "w") as outfile:
         json.dump(scraped_cases, outfile)
+
+if __name__ == "__main__":
+
+    # Provide relevant information for scraping
+    # including county, year, number of cases
+    # number of threads, and partition
+    county = sys.argv[1]
+    year = sys.argv[2]
+    num_cases = int(sys.argv[3])
+    pool_size = int(sys.argv[4])
+    partition_size = int(sys.argv[5])
+
+    partitions = []
+
+    for i in range(1, num_cases, partition_size):
+        partitions.append([i, i + partition_size - 1])
+
+    pool = ThreadPool(pool_size)
+
+    for partition in partitions:
+        pool.apply_async(scrape, ("Lancaster", 21, partition[0], partition[1]))
+
+    pool.close()
+    pool.join()
+
+
+
+    
         
         
