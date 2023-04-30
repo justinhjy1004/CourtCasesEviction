@@ -62,16 +62,18 @@ which scrapes all eviction cases in **Douglas** County from years **2011 to 2015
 
 Refer to the folder **01_extract** for this section.
 
-**extraction.py** reads JSON files from generated from **00_scrapers**. This is written with multithreading in mind, and hence would work well if employed in that manner though it is not necessary.
+**extraction.py** reads JSON files from generated from **00_scrapers**. This is written with multithreading in mind, and hence would work well if employed in that manner though it is not necessary. 
+
+An R script is used to combine the csv file that is readable by pandas and the combined file, called **all_cases.csv** is then copied to *02_cleaning*.
 
 ### Instructions
-Take the scraped JSON file with the relevant court cases, run the following  
+Take the scraped JSON files and place it in a directory called **CourtCases** and run the bash script
 
 ```bash
-python3 extraction.py file_name
+chmod +x script.sh
+./script.sh
 ```
-
-and a corresponding **csv** file would be produced.
+and **all_cases.csv** file would be produced.
 
 -------------------
 
@@ -84,6 +86,8 @@ Then, run, which was done in a Bash Shell
 chmod +x script.sh
 ./script.sh
 ```
+
+A corresponding **clean_all_cases.csv** is produced and it is meant to be applicable for downstream analysis.
 
 -------------------
 

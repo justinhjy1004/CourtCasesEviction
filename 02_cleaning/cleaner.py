@@ -210,3 +210,41 @@ def splitting_field(address):
         zip = None
 
     return street, city, state, zip
+
+
+"""
+See if an issue of continuance is obtained
+Input: actions
+Output: is it continued?
+"""
+def continued(actions):
+
+    if actions is None:
+        return False
+    
+    x = re.findall("continued", actions, flags=re.IGNORECASE)
+    y = re.findall("continuance", actions, flags=re.IGNORECASE)
+
+    if len(x) + len(y) > 0:
+        return True
+    else:
+        return False
+    
+"""
+If writ is issued
+Input: actions
+Output: is write issued?
+"""
+def writ_of_restitution(actions):
+    
+    if actions is None:
+        return False
+    
+    # This is done in a general sense, since there were identified
+    # spelling errors found
+    x = re.findall("writ", actions, flags=re.IGNORECASE)
+
+    if len(x) > 0:
+        return True
+    else:
+        False
