@@ -1,11 +1,18 @@
 import re
 
+
+"""
+If there is an eviction judgement
+Input: Judgement Information
+Output: Is it eviction?
+"""
 def judgement_of_restitution(judgement_info):
 
     if type(judgement_info) != str:
         return False
     else:
-        x = re.search("Restitution of Premises", judgement_info)
+        pattern = "Restitution of Premises"
+        x = re.search(pattern, judgement_info)
         
         if x is None:
             return False
@@ -17,7 +24,9 @@ def plaintiff_and_attorney(parties):
     if type(parties) != str:
         return None, None
     
-    x = re.search("Plaintiff (.*?)[\s]{3,}(.*?)[^\S\r\n]{2,}(.*?)\n", parties)
+    pattern = "Plaintiff (.*?)[\s]{3,}(.*?)[^\S\r\n]{2,}(.*?)\n"
+
+    x = re.search(pattern, parties)
 
     if x is None:
         return None, None
@@ -32,7 +41,8 @@ def defendant_and_attorney(parties):
     if type(parties) != str:
         return None, None
     
-    x = re.search("Defendant (.*?)[\s]{3,}(.*?)[^\S\r\n]{2,}(.*?)\n", parties)
+    pattern = "Defendant (.*?)[\s]{3,}(.*?)[^\S\r\n]{2,}(.*?)\n"
+    x = re.search(pattern, parties)
 
     if x is None:
         return None, None
@@ -52,7 +62,8 @@ def defendant_and_attorney(parties):
     if type(parties) != str:
         return None, None
     
-    x = re.search("Defendant (.*?)[\s]{3,}(.*?)[^\S\r\n]{2,}(.*?)\n", parties)
+    pattern = "Defendant (.*?)[\s]{3,}(.*?)[^\S\r\n]{2,}(.*?)\n"
+    x = re.search(pattern, parties)
 
     if x is None:
         return None, None
@@ -94,33 +105,51 @@ def get_address(defendant, defendant_attorney, parties):
     if type(parties) != str:
         return None
     
-    # Relabel parantheses
-    defendant = re.sub("\(", "\(", defendant)
-    defendant = re.sub("\)", "\)", defendant)
 
     # Base matching format
-    matching_format = defendant + r"[^\S\r\n]{2,}" + defendant_attorney + r"[\S\s]* NE \d{5}"
-    
-    x = re.search(matching_format, parties)
+    pattern = defendant + r"[^\S\r\n]{2,}" + defendant_attorney + r"[\S\s]* NE \d{5}"
+    pattern = re.sub("\(", "\(", pattern)
+    pattern = re.sub("\)", "\)", pattern)
+
+    x = re.search(pattern, parties)
 
     # Match on different specifications
     if x is None:
         # Without ZIP Code
-        matching_format = defendant + "[^\S\r\n]{1,}" + defendant_attorney + "[\S\s]* NE"
-        x = re.search(matching_format, parties)
+        pattern = defendant + "[^\S\r\n]{1,}" + defendant_attorney + "[\S\s]* NE"
+        pattern = re.sub("\(", "\(", pattern)
+        pattern = re.sub("\)", "\)", pattern)
+        
+        x = re.search(pattern, parties)
+
         if x is None:
             # One line address with ZIP
-            matching_format = defendant + "(.*?) NE \d{5}"
-            x = re.search(matching_format, parties)
+            pattern = defendant + "(.*?) NE \d{5}"
+            pattern = re.sub("\(", "\(", pattern)
+            pattern = re.sub("\)", "\)", pattern)
+
+            x = re.search(pattern, parties)
+
             if x is None:
                 # One line address withOUT ZIP
-                matching_format = defendant + "(.*?) NE"
-                x = re.search(matching_format, parties)
+                pattern = defendant + "(.*?) NE"
+                pattern = re.sub("\(", "\(", pattern)
+                pattern = re.sub("\)", "\)", pattern)
+
+
+                x = re.search(pattern, parties)
                 if x is None:
                     return None
 
     # Remove defendant and attorney from address
     address = x.group(0)
+
+    defendant = re.sub("\(", "\(", defendant)
+    defendant = re.sub("\)", "\)", defendant)
+
+    defendant_attorney = re.sub("\(", "\(", defendant_attorney)
+    defendant_attorney = re.sub("\)", "\)", defendant_attorney)
+
     address = re.sub(defendant, "", address).strip()
     address = re.sub(defendant_attorney, "", address).strip()
 

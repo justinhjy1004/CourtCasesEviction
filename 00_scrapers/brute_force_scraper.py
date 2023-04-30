@@ -73,7 +73,7 @@ if __name__ == "__main__":
     pool = ThreadPool(pool_size)
 
     for partition in partitions:
-        pool.apply_async(scrape, ("Lancaster", 21, partition[0], partition[1]))
+        pool.apply_async(scrape, (county, int(year), partition[0], partition[1]))
 
     pool.close()
     pool.join()

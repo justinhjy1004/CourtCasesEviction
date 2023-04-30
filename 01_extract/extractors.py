@@ -15,7 +15,9 @@ def case_name(case_summary):
     if case_summary is None:
         return None
     
-    parties = re.search(r"\n (.*?) v\. (.*?) \n", case_summary)
+    pattern = r"\n (.*?) v\. (.*?) \n"
+    
+    parties = re.search(pattern, case_summary)
 
     if parties is None:
         return None, None, None
@@ -35,8 +37,10 @@ def judge(case_summary):
 
     if case_summary is None:
         return None
+    
+    pattern = r"\n The Honorable (.*?), presiding."
 
-    judge = re.search(r"\n The Honorable (.*?), presiding.", case_summary)
+    judge = re.search(pattern, case_summary)
 
     if judge is None:
         return None
@@ -56,7 +60,11 @@ def plaintiff_information(parties, plaintiff):
     if parties is None or plaintiff is None:
         return None, None
     
-    plaintiff_detail = re.search("(.*?)" + plaintiff + "(.*?) [\s]{3,} [a-zA-Z]* \n", parties)
+    pattern = "(.*?)" + plaintiff + "(.*?) [\s]{3,} [a-zA-Z]* \n"
+    pattern = re.sub("\(", "\(", pattern)
+    pattern = re.sub("\)", "\)", pattern)
+    
+    plaintiff_detail = re.search(pattern, parties)
 
     if plaintiff_detail is None:
         return None, None
@@ -76,8 +84,12 @@ def defendant_information(parties, defendant):
 
     if parties is None or defendant is None:
         return None, None
+    
+    pattern = "(.*?)" + defendant + "(.*?) [\s]{3,} [a-zA-Z]* \n"
+    pattern = re.sub("\(", "\(", pattern)
+    pattern = re.sub("\)", "\)", pattern)
 
-    defendant_detail = re.search("(.*?)" + defendant + "(.*?) [\s]{3,} [a-zA-Z]* \n", parties)
+    defendant_detail = re.search(pattern, parties)
 
     if defendant_detail is None:
         return None, None
@@ -113,8 +125,12 @@ def defendant_address(parties, defendant):
 
     if parties is None or defendant is None:
         return None
+    
+    pattern = defendant + " [\S\s]* NE \d{5} [\s]* \n"
+    pattern = re.sub("\(", "\(", pattern)
+    pattern = re.sub("\)", "\)", pattern)
 
-    address = re.search(defendant + " [\S\s]* NE \d{5} [\s]* \n", parties)
+    address = re.search(pattern, parties)
 
     if address is None:
         return None
@@ -138,8 +154,10 @@ def filing_date(case_summary):
 
     if case_summary is None:
         return None
+    
+    pattern = r"Filed on (.*?) \n"
 
-    filing_date = re.search(r"Filed on (.*?) \n", case_summary)
+    filing_date = re.search(pattern, case_summary)
 
     if filing_date is None:
         return None
@@ -158,7 +176,9 @@ def closing_date(case_summary):
     if case_summary is None:
         return None
     
-    closing_date = re.search(r"This case is Closed as of (.*?) \n", case_summary)
+    pattern = r"This case is Closed as of (.*?) \n"
+    
+    closing_date = re.search(pattern, case_summary)
 
     if closing_date is None:
         return None 
@@ -177,7 +197,9 @@ def decision(case_summary):
     if case_summary is None:
         return None
 
-    decision = re.search(r"It was disposed as  (.*?)\n", case_summary)
+    pattern = r"It was disposed as  (.*?)\n"
+
+    decision = re.search(pattern, case_summary)
 
     if decision is None:
         return None
@@ -185,3 +207,25 @@ def decision(case_summary):
     decision = decision.group(1).strip()
 
     return decision
+
+
+"""
+Classification of Case
+Input: text of case summary
+Output: classification
+"""
+def classification(case_summary):
+
+    if case_summary is None:
+        return None
+
+    pattern = r"Classification: (.*?)\n"
+
+    classification = re.search(pattern, case_summary)
+
+    if classification is None:
+        return None
+    
+    classification = classification.group(1).strip()
+
+    return classification

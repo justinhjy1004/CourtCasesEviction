@@ -54,6 +54,7 @@ if __name__ == '__main__':
     # Extract relevant information
     df["CASE_NAME"], df["PLAINTIFF"], df["DEFENDANT"] = zip(*df.CASE_SUMMARY.map(extractors.case_name))
     df["JUDGE"] = df.CASE_SUMMARY.apply(extractors.judge)
+    df["CLASSIFICATION"] = df.CASE_SUMMARY.apply(extractors.classification)
     df["PLAINTIFF"], df["PLAINTIFF_ATTORNEY"] = zip(*df.apply(lambda x: extractors.plaintiff_information(x.PARTIES, x.PLAINTIFF), axis=1))
     df["DEFENDANT"], df["DEFENDANT_ATTORNEY"] = zip(*df.apply(lambda x: extractors.defendant_information(x.PARTIES, x.DEFENDANT), axis=1))
     df["NUM_DEFENDANTS"] = df.PARTIES.apply(extractors.num_defendants)
