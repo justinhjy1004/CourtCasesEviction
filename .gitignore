@@ -8,4 +8,5 @@ __pycache__/
 /02_cleaning/clean_all_cases.csv
 /04_geocoding/geocode/
 /04_geocoding/geocoderesult/
+/04_geocoding/*.csv
 /06_demographics/*.csv
