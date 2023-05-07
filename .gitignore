@@ -3,7 +3,10 @@ __pycache__/
 /00_scrapers/chromedriver
 /00_scrapers/bfscraped/
 /01_extract/CourtCases/
+/01_extract/BruteScrape/
+/01_extract/BruteScrape.zip
 /01_extract/all_cases.csv
+/01_extract/brute_all_cases.csv
 /02_cleaning/all_cases.csv
 /02_cleaning/clean_all_cases.csv
 /04_geocoding/geocode/

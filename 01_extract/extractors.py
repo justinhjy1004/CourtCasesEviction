@@ -13,7 +13,7 @@ Output: case name, plaintiff and defendant
 def case_name(case_summary):
 
     if case_summary is None:
-        return None
+        return None, None, None
     
     pattern = r"\n (.*?) v\. (.*?) \n"
     
