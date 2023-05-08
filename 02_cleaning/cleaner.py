@@ -222,10 +222,9 @@ def continued(actions):
     if actions is None:
         return False
     
-    x = re.findall("continued", actions, flags=re.IGNORECASE)
     y = re.findall("continuance", actions, flags=re.IGNORECASE)
 
-    if len(x) + len(y) > 0:
+    if len(y) > 0:
         return True
     else:
         return False
@@ -247,4 +246,4 @@ def writ_of_restitution(actions):
     if len(x) > 0:
         return True
     else:
-        False
+        return False

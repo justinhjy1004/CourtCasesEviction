@@ -38,4 +38,4 @@ if __name__ == '__main__':
         with open(output_directory + geocodable, 'wb') as f:
             f.write(response.content)
 
-        print(output_directory + geocodable + " done!")
+        print(geocodable + " done!")
