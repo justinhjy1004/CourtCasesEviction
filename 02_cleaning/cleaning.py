@@ -8,6 +8,9 @@ if __name__ == '__main__':
 
     df = pd.read_csv(file, on_bad_lines='skip',encoding='utf-8')
 
+    # Only have Real Property for Classifications
+    df = df[df["CLASSIFICATION"].str.contains("Real Property")]
+
     df["RESTITUTION"] = df.JUDGEMENT_INFO.apply(cleaner.judgement_of_restitution)
     df["PLAINTIFF"], df["PLAINTIFF_ATTORNEY"] = zip(*df.PARTIES.apply(cleaner.plaintiff_and_attorney))
     df["DEFENDANT"], df["DEFENDANT_ATTORNEY"] = zip(*df.PARTIES.apply(cleaner.defendant_and_attorney))

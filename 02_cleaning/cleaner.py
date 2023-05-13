@@ -222,9 +222,10 @@ def continued(actions):
     if actions is None:
         return False
     
-    y = re.findall("continuance", actions, flags=re.IGNORECASE)
+    x = re.findall("ord-continuance", actions, flags=re.IGNORECASE)
+    y = re.findall("order-continuance", actions, flags=re.IGNORECASE)
 
-    if len(y) > 0:
+    if len(y) + len(x) > 0:
         return True
     else:
         return False
