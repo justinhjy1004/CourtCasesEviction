@@ -105,66 +105,69 @@ def get_address(defendant, defendant_attorney, parties):
     if type(parties) != str:
         return None
     
-
-    # Base matching format
-    pattern = defendant + r"[^\S\r\n]{2,}" + defendant_attorney + r"[\S\s]* NE \d{5}"
-    pattern = re.sub("\(", "\(", pattern)
-    pattern = re.sub("\)", "\)", pattern)
-
-    x = re.search(pattern, parties)
-
-    # Match on different specifications
-    if x is None:
-        # Without ZIP Code
-        pattern = defendant + "[^\S\r\n]{1,}" + defendant_attorney + "[\S\s]* NE"
+    try:
+        # Base matching format
+        pattern = defendant + r"[^\S\r\n]{2,}" + defendant_attorney + r"[\S\s]* NE \d{5}"
         pattern = re.sub("\(", "\(", pattern)
         pattern = re.sub("\)", "\)", pattern)
-        
+
         x = re.search(pattern, parties)
 
+        # Match on different specifications
         if x is None:
-            # One line address with ZIP
-            pattern = defendant + "(.*?) NE \d{5}"
+            # Without ZIP Code
+            pattern = defendant + "[^\S\r\n]{1,}" + defendant_attorney + "[\S\s]* NE"
             pattern = re.sub("\(", "\(", pattern)
             pattern = re.sub("\)", "\)", pattern)
-
+            
             x = re.search(pattern, parties)
 
             if x is None:
-                # One line address withOUT ZIP
-                pattern = defendant + "(.*?) NE"
+                # One line address with ZIP
+                pattern = defendant + "(.*?) NE \d{5}"
                 pattern = re.sub("\(", "\(", pattern)
                 pattern = re.sub("\)", "\)", pattern)
 
-
                 x = re.search(pattern, parties)
+
                 if x is None:
-                    return None
+                    # One line address withOUT ZIP
+                    pattern = defendant + "(.*?) NE"
+                    pattern = re.sub("\(", "\(", pattern)
+                    pattern = re.sub("\)", "\)", pattern)
 
-    # Remove defendant and attorney from address
-    address = x.group(0)
 
-    defendant = re.sub("\(", "\(", defendant)
-    defendant = re.sub("\)", "\)", defendant)
+                    x = re.search(pattern, parties)
+                    if x is None:
+                        return None
 
-    defendant_attorney = re.sub("\(", "\(", defendant_attorney)
-    defendant_attorney = re.sub("\)", "\)", defendant_attorney)
+        # Remove defendant and attorney from address
+        address = x.group(0)
 
-    address = re.sub(defendant, "", address).strip()
-    address = re.sub(defendant_attorney, "", address).strip()
+        defendant = re.sub("\(", "\(", defendant)
+        defendant = re.sub("\)", "\)", defendant)
 
-    # If has attorney, roughly get half
-    if has_attorney:
-        address = "".join(list(map(get_half,address.split("\n"))))
+        defendant_attorney = re.sub("\(", "\(", defendant_attorney)
+        defendant_attorney = re.sub("\)", "\)", defendant_attorney)
 
-    address = re.sub("[\\s]{3,}", ", ", address)
- 
-    address = address.split(", Defendant ACTIVE, ")[0]
-    address = address.split(", Witness ACTIVE, ")[0]
-    address = address.split(", owes")[0]
-    address = address.split(", Limited Representation Attorney")[0]
+        address = re.sub(defendant, "", address).strip()
+        address = re.sub(defendant_attorney, "", address).strip()
+
+        # If has attorney, roughly get half
+        if has_attorney:
+            address = "".join(list(map(get_half,address.split("\n"))))
+
+        address = re.sub("[\\s]{3,}", ", ", address)
     
-    return address  
+        address = address.split(", Defendant ACTIVE, ")[0]
+        address = address.split(", Witness ACTIVE, ")[0]
+        address = address.split(", owes")[0]
+        address = address.split(", Limited Representation Attorney")[0]
+        
+        return address  
+    
+    except:
+        return None
     
 """
 Given a string, remove the last character if it is comma
@@ -248,3 +251,23 @@ def writ_of_restitution(actions):
         return True
     else:
         return False
+
+"""
+General Information about Court, Year and Case Num
+Input: CASE ID
+Output: Which court, which year, and what case number
+"""
+def case_information(case_id):
+    
+    if type(case_id) != str:
+        return None, None, None
+    
+    if case_id[3:5] == "01":
+        COURT = "Douglas"
+    if case_id[3:5] == "02":
+        COURT = "Lancaster"
+
+    YEAR = int("20" + case_id[6:8])
+    CASE_NUM = int(case_id[9:])
+
+    return COURT, YEAR, CASE_NUM
