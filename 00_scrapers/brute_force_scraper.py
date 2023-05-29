@@ -61,13 +61,14 @@ if __name__ == "__main__":
     # number of threads, and partition
     county = sys.argv[1]
     year = sys.argv[2]
-    num_cases = int(sys.argv[3])
-    pool_size = int(sys.argv[4])
-    partition_size = int(sys.argv[5])
+    start_cases = int(sys.argv[3])
+    end_cases = int(sys.argv[4])
+    pool_size = int(sys.argv[5])
+    partition_size = int(sys.argv[6])
 
     partitions = []
 
-    for i in range(1, num_cases, partition_size):
+    for i in range(start_cases, end_cases, partition_size):
         partitions.append([i, i + partition_size - 1])
 
     pool = ThreadPool(pool_size)
@@ -81,5 +82,4 @@ if __name__ == "__main__":
 
 
     
-        
-        
+    
